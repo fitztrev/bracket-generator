@@ -45,7 +45,7 @@ new Vue({
                 .then(function(response){
                     response.data.forEach(function(player){
                         this.playerRatings.push({
-                            name: player.id,
+                            name: player.username,
                             rating: player.perfs[this.gameType].rating,
                             games: player.perfs[this.gameType].games,
                         })
