@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+                margin: 50px 0;
+            }
+            h1, hr {
+                margin: 40px 0;
+            }
+        </style>
+        <title>Viewer Bracket Generator</title>
+    </head>
+    <body>
+        <div id="app">
+            <div class="container">
+                <h1>Viewer Bracket Generator</h1>
+
+                <h5>1) Enter Lichess usernames of 8 players</h5>
+                <div class="form-group">
+                    <textarea class="form-control" v-model="usernames" rows="8"></textarea>
+                    <small class="form-text text-muted">One Lichess username per line</small>
+                </div>
+
+                <h5>2) Which rating to use</h5>
+                <div class="form-group">
+                    <select class="form-control" v-model="gameType">
+                        <option value="">Select a time control</option>
+                        <option value="bullet">Bullet</option>
+                        <option value="blitz">Blitz</option>
+                        <option value="rapid">Rapid</option>
+                        <option value="classical">Classical</option>
+                    </select>
+                    <small class="form-text text-muted">It will pull their rating via the Lichess API</small>
+                </div>
+
+                <button type="button" class="btn btn-primary" @click="submit">Generate</button>
+
+                <div class="alert alert-danger mt-3" v-if="errorMessage">
+                    {{ errorMessage }}
+                </div>
+
+                <div class="alert alert-danger mt-3" v-if="playerRatings.length && playerRatings.length < 8">
+                    <p>Couldn't find one or more users. Check spelling.</p>
+                    <p>
+                        These ones were found successfully:
+                        <span v-for="player in playerRatings">
+                            <strong>{{ player.name }}</strong>,
+                        </span>
+                    </p>
+                </div>
+
+                <template v-if="playerRatings.length === 8">
+                    <hr>
+
+                    <div class="row">
+                        <div class="col col-6">
+                            <h3 class="text-center">Seeds</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Seed</th>
+                                        <th>Username</th>
+                                        <th class="text-right">Rating</th>
+                                        <th class="text-right"># Games</th>
+                                    </tr>
+                                </thead>
+                                <tr v-for="(player, key) in playerRatingsSorted">
+                                    <td>#{{ key + 1}}</td>
+                                    <td>{{ player.name }}</td>
+                                    <td class="text-right">{{ player.rating }}</td>
+                                    <td class="text-right">{{ player.games }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col col-6 text-center">
+                            <h3 class="text-center">Pairings</h3>
+
+                            <template v-for="(pairing, key) in pairing_config">
+                                <div class="card text-white bg-dark mb-3">
+                                    <div class="card-body">
+                                        <div class="card-text">
+                                            <template v-for="(seed, key) in pairing">
+                                                <h5>
+                                                    #{{ seed }}
+                                                    &ndash;
+                                                    {{ playerRatingsSorted[seed - 1].name }}
+                                                    ({{ playerRatingsSorted[seed - 1].rating }})
+                                                </h5>
+
+                                                <span v-if="key === 0">
+                                                    <em>vs.</em>
+                                                </span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
