@@ -29,7 +29,6 @@
                 <h5>2) Which rating to use</h5>
                 <div class="form-group">
                     <select class="form-control" v-model="gameType">
-                        <option value="">Select a time control</option>
                         <option value="bullet">Bullet</option>
                         <option value="blitz">Blitz</option>
                         <option value="rapid">Rapid</option>
@@ -40,69 +39,57 @@
 
                 <button type="button" class="btn btn-primary" @click="submit">Generate</button>
 
-                <div class="alert alert-danger mt-3" v-if="errorMessage">
-                    {{ errorMessage }}
-                </div>
+                <hr>
 
-                <div class="alert alert-danger mt-3" v-if="playerRatings.length && playerRatings.length < 8">
-                    <p>Couldn't find one or more users. Check spelling.</p>
-                    <p>
-                        These ones were found successfully:
-                        <span v-for="player in playerRatings">
-                            <strong>{{ player.name }}</strong>,
-                        </span>
-                    </p>
-                </div>
-
-                <template v-if="playerRatings.length === 8">
-                    <hr>
-
-                    <div class="row">
-                        <div class="col col-6">
-                            <h3 class="text-center">Seeds</h3>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Seed</th>
-                                        <th>Username</th>
-                                        <th class="text-right">Rating</th>
-                                        <th class="text-right"># Games</th>
-                                    </tr>
-                                </thead>
-                                <tr v-for="(player, key) in playerRatingsSorted">
-                                    <td>#{{ key + 1}}</td>
-                                    <td>{{ player.name }}</td>
-                                    <td class="text-right">{{ player.rating }}</td>
-                                    <td class="text-right">{{ player.games }}</td>
+                <div class="row" v-if="playerRatings.length">
+                    <div class="col col-6">
+                        <h3 class="text-center">Seeds</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Seed</th>
+                                    <th>Username</th>
+                                    <th class="text-right">Rating</th>
+                                    <th class="text-right"># Games</th>
                                 </tr>
-                            </table>
-                        </div>
-                        <div class="col col-6 text-center">
-                            <h3 class="text-center">Pairings</h3>
+                            </thead>
+                            <tr v-for="(player, key) in playerRatingsSorted">
+                                <td>#{{ key + 1}}</td>
+                                <td>{{ player.name }}</td>
+                                <td class="text-right">{{ player.rating }}</td>
+                                <td class="text-right">{{ player.games }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col col-6 text-center">
+                        <h3 class="text-center">Pairings</h3>
 
-                            <template v-for="(pairing, key) in pairing_config">
-                                <div class="card text-white bg-dark mb-3">
-                                    <div class="card-body">
-                                        <div class="card-text">
-                                            <template v-for="(seed, key) in pairing">
-                                                <h5>
-                                                    #{{ seed }}
-                                                    &ndash;
-                                                    {{ playerRatingsSorted[seed - 1].name }}
-                                                    ({{ playerRatingsSorted[seed - 1].rating }})
-                                                </h5>
+                        <template v-if="playerRatings.length === 8" v-for="(pairing, key) in pairing_config">
+                            <div class="card text-white bg-dark mb-3">
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <template v-for="(seed, key) in pairing">
+                                            <h5>
+                                                #{{ seed }}
+                                                &ndash;
+                                                {{ playerRatingsSorted[seed - 1].name }}
+                                                ({{ playerRatingsSorted[seed - 1].rating }})
+                                            </h5>
 
-                                                <span v-if="key === 0">
-                                                    <em>vs.</em>
-                                                </span>
-                                            </template>
-                                        </div>
+                                            <span v-if="key === 0">
+                                                <em>vs.</em>
+                                            </span>
+                                        </template>
                                     </div>
                                 </div>
-                            </template>
+                            </div>
+                        </template>
+
+                        <div class="alert alert-warning mt-3" v-if="playerRatings.length < 8">
+                            <p>Pairings will be generted when there are 8 players.</p>
                         </div>
                     </div>
-                </template>
+                </div>
             </div>
         </div>
 

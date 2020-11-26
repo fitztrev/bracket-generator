@@ -2,8 +2,6 @@ new Vue({
     el: '#app',
 
     data: {
-        errorMessage: '',
-
         gameType: 'rapid',
         usernames: ``,
 
@@ -28,16 +26,9 @@ new Vue({
 
     methods: {
         submit: function() {
-            this.errorMessage = ''
             this.playerRatings = []
 
-            if (this.players.length !== 8) {
-                this.errorMessage = `Need 8 players. ${this.players.length} entered.`
-            } else if (!this.gameType) {
-                this.errorMessage = 'Select a rating type.'
-            } else {
-                this.fetchPlayerRatings()
-            }
+            this.fetchPlayerRatings()
         },
 
         fetchPlayerRatings: function() {
