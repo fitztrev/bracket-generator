@@ -78,17 +78,17 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Seed</th>
+                                    <th class="px-5">Seed</th>
                                     <th>Username</th>
-                                    <th class="text-right">Rating</th>
-                                    <th class="text-right"># Games</th>
+                                    <th class="px-5 text-right">Rating</th>
+                                    <!-- <th class="text-right"># Games</th> -->
                                 </tr>
                             </thead>
                             <tr v-for="(player, key) in playerRatingsSorted">
-                                <td>#{{ key + 1}}</td>
+                                <td class="px-5">#{{ key + 1}}</td>
                                 <td>{{ player.name }}</td>
-                                <td class="text-right">{{ player.rating }}</td>
-                                <td class="text-right">{{ player.games }}</td>
+                                <td class="px-5 text-right">{{ player.rating }}</td>
+                                <!-- <td class="text-right">{{ player.games }}</td> -->
                             </tr>
                         </table>
 
@@ -102,7 +102,7 @@
 
                 <div class="row" v-if="playerRatings.length === 8">
                     <div class="col col-10 offset-1 text-center">
-                        <h2 class="text-center">Pairings</h2>
+                        <h1 class="text-center mb-5">Pairings</h1>
 
                         <template v-if="playerRatings.length === 8" v-for="(pairing, key) in pairing_config">
                             <div class="row">
