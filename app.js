@@ -2,13 +2,14 @@ new Vue({
     el: '#app',
 
     data: {
-        gameType: 'rapid',
         usernames: ``,
+        gameType: 'rapid',
+        challengeInstructions: '7+2 Casual',
 
         playerRatings: [],
 
         pairing_config: [
-            [5, 1], // #5 plays #1, etc...
+            [5, 1], // #5 seed plays #1 seed, etc...
             [8, 4],
             [6, 2],
             [7, 3],
