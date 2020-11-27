@@ -21,7 +21,7 @@ new Vue({
             return this.usernames.split("\n").filter(Boolean)
         },
         playerRatingsSorted: function(){
-            return [...this.playerRatings].sort((a, b) => (a.rating < b.rating) ? 1 : -1)
+            return _.orderBy(this.playerRatings, ['rating', 'games'], 'desc')
         },
     },
 
