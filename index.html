@@ -102,7 +102,7 @@
 
                 <div class="row" v-if="playerRatings.length === 8">
                     <div class="col col-10 offset-1 text-center">
-                        <h1 class="text-center mb-5">Pairings</h1>
+                        <h1 class="text-center mb-5">First Round Pairings</h1>
 
                         <template v-if="playerRatings.length === 8" v-for="(pairing, key) in pairing_config">
                             <div class="row">
@@ -115,7 +115,7 @@
                                                         #{{ seed }}
                                                         &ndash;
                                                         {{ playerRatingsSorted[seed - 1].name }}
-                                                        ({{ playerRatingsSorted[seed - 1].rating }})
+                                                        <!-- ({{ playerRatingsSorted[seed - 1].rating }}) -->
                                                     </h5>
 
                                                     <span v-if="key === 0">
