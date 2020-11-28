@@ -8,10 +8,30 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
         <style>
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
             body {
                 background: #421884 url(https://i.imgur.com/9m7hilt.jpg) no-repeat center center fixed;
                 color: #fff;
                 font-family: 'Oswald', sans-serif;
+            }
+
+            .info-bar {
+                background-color: #565758;
+                font-size: 18px;
+                text-align: center;
+                height: 30px;
+            }
+
+            .info-bar input {
+                background-color: #565758;
+                color: #fff;
+                text-align: center;
+                width: 400px;
             }
 
             /*
@@ -91,6 +111,10 @@
         <title>Bracket</title>
     </head>
     <body>
+        <div class="info-bar">
+            <input type="text" onclick="this.select()">
+        </div>
+
         <div id="bracket"></div>
         <script
   src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -119,16 +143,22 @@
             //     ]
             // }
 
-            $(function() {
+            $(document).ready(function() {
                 $('#bracket').bracket({
                     init: data,
-                    save: function(){},
                     disableToolbar: true,
                     skipConsolationRound: true,
-                    teamWidth: 150,
-                    scoreWidth: 20,
                     matchMargin: 50,
                     roundMargin: 50,
+                    scoreWidth: 20,
+                    teamWidth: 150,
+                    save: function(data){},
+                })
+
+                $(document).on('click', '#bracket .team .label', function(){
+                    let team = $(this).find('input').first().val()
+                    let username = team.split(' ').splice(-1)
+                    $('.info-bar input').val(`https://lichess.org/@/${username}/tv`)
                 })
             })
         </script>
