@@ -20,7 +20,12 @@
              * just scale the whole page up.
              */
             div.jQBracket {
-                -webkit-transform: scale(2.4);
+                -webkit-transform: scale(2);
+            }
+            @media screen and (min-width: 1600px) {
+                div.jQBracket {
+                    -webkit-transform: scale(2.4);
+                }
             }
             @media screen and (min-width: 1900px) {
                 div.jQBracket {
@@ -28,10 +33,14 @@
                 }
             }
 
-            div.jQBracket {
+            div.jQBracket,
+            div.jQBracket .editable input {
                 font-family: 'Oswald', sans-serif;
+            }
 
-                -webkit-transform-origin: top left;
+            div.jQBracket {
+                -webkit-transform-origin: center center;
+                margin: 0 auto;
             }
             div.jQBracket .team {
                 background-color: #343a40;
