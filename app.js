@@ -23,6 +23,29 @@ new Vue({
         playerRatingsSorted: function(){
             return _.orderBy(this.playerRatings, ['rating', 'games'], 'desc')
         },
+        pairings: function(){
+            /*
+             * This generates the JSON to feed to
+             * bracket.html to populate the bracket.
+             */
+            if (this.playerRatings.length !== 8) return
+
+            let pairings = []
+
+            for(var i=0; i<this.pairing_config.length; i++) {
+                pairings.push(
+                    [
+                        '#' + this.pairing_config[i][0] + ' - ' + this.playerRatingsSorted[this.pairing_config[i][0] - 1].name,
+                        '#' + this.pairing_config[i][1] + ' - ' + this.playerRatingsSorted[this.pairing_config[i][1] - 1].name,
+                    ]
+                )
+            }
+
+            return pairings
+        },
+        linkToBracket: function() {
+            return 'bracket.html?pairings=' + encodeURIComponent(JSON.stringify(this.pairings))
+        },
     },
 
     methods: {

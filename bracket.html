@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-bracket@0.11.1/dist/jquery.bracket.min.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                background: #421884 url(https://i.imgur.com/9m7hilt.jpg) no-repeat center center fixed;
+                color: #fff;
+                font-family: 'Oswald', sans-serif;
+            }
+
+            /*
+             * Can't easily resize the jQuery plugin components.
+             * So this is an easy way to get around it...
+             * just scale the whole page up.
+             */
+            div.jQBracket {
+                -webkit-transform: scale(2.4);
+            }
+            @media screen and (min-width: 1900px) {
+                div.jQBracket {
+                    -webkit-transform: scale(2.8);
+                }
+            }
+
+            div.jQBracket {
+                font-family: 'Oswald', sans-serif;
+
+                -webkit-transform-origin: top left;
+            }
+            div.jQBracket .team {
+                background-color: #343a40;
+                opacity: 0.8;
+
+                border: 1px solid #fff;
+            }
+
+            .connector {
+                border-color: #fff !important;
+            }
+
+            div.jQBracket .team.highlight,
+            div.jQBracket .team.win,
+            div.jQBracket .team.lose,
+            div.jQBracket .team.na {
+                background-color: #343a40;
+                color: inherit;
+            }
+
+            div.jQBracket .team.na .label {
+                display: none;
+            }
+
+            div.jQBracket .team div.score {
+                background-color: #565758;
+                font-weight: 600;
+            }
+            div.jQBracket .team.lose div.score {
+                color: #885858;
+            }
+            div.jQBracket .team.win div.score {
+                color: #0f0;
+            }
+
+            div.jQBracket .win .bubble,
+            div.jQBracket .lose .bubble {
+                color: #565758;
+            }
+
+            div.jQBracket .win .bubble {
+                background-color: #ffff00;
+            }
+            div.jQBracket .win .bubble:after {
+                border-right-color: #ffff00;
+            }
+        </style>
+        <title>Bracket</title>
+    </head>
+    <body>
+        <div id="bracket"></div>
+        <script
+  src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-bracket@0.11.1/dist/jquery.bracket.min.js"></script>
+        <script>
+            const queryString = window.location.search
+            const urlParams = new URLSearchParams(queryString)
+
+            let pairings = urlParams.get('pairings')
+
+            var data = {
+                teams: JSON.parse(pairings),
+            }
+
+            // var data = {
+            //     teams : [
+            //         ['#5 – a', '#1 – b'],
+            //         ['#8 – c', '#4 – d'],
+            //         ['#6 – e', '#2 – f'],
+            //         ['#7 – g', '#3 – h'],
+            //     ],
+            //     results : [
+            //         [[0, 1], [1, 0], [0, 1], [1, 0]],
+            //         [[0, 1], [1, 0]],
+            //         [[1, 0]],
+            //     ]
+            // }
+
+            $(function() {
+                $('#bracket').bracket({
+                    init: data,
+                    save: function(){},
+                    disableToolbar: true,
+                    skipConsolationRound: true,
+                    teamWidth: 150,
+                    scoreWidth: 20,
+                    matchMargin: 50,
+                    roundMargin: 50,
+                })
+            })
+        </script>
+    </body>
+</html>
