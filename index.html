@@ -91,6 +91,7 @@
                                     <th class="px-5">Seed</th>
                                     <th>Username</th>
                                     <th class="px-5 text-right">Rating</th>
+                                    <th class="text-right"><a @click.prevent="removeAllPlayers" class="btn btn-outline-danger btn-sm">&times;</a></th>
                                     <!-- <th class="text-right"># Games</th> -->
                                 </tr>
                             </thead>
@@ -98,7 +99,7 @@
                                 <td class="px-5">#{{ key + 1}}</td>
                                 <td>{{ player.name }}</td>
                                 <td class="px-5 text-right">{{ player.rating }}</td>
-                                <td><a @click.prevent="removePlayer(player.name)" class="btn btn-outline-danger">&times;</a></td>
+                                <td class="text-right"><a @click.prevent="removePlayer(player.name)" class="btn btn-outline-danger btn-sm">&times;</a></td>
                                 <!-- <td class="text-right">{{ player.games }}</td> -->
                             </tr>
                         </table>

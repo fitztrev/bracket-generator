@@ -95,6 +95,10 @@ new Vue({
             })
         },
 
+        removeAllPlayers: function() {
+            this.players = []
+        },
+
         fetchPlayerRatings: function() {
             this.playerRatings = []
             axios.post('https://lichess.org/api/users', this.players.join(','))
