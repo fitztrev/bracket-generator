@@ -26,6 +26,17 @@ new Vue({
         channel.bind('signup', function(data) {
             this.addPlayer(data.username)
         }.bind(this))
+
+        /*
+         * Check URL for usernames
+         * #user1,user2,user3
+         */
+        let users = window.location.hash.substr(1)
+        if (users) {
+            _.each(users.split(','), function(user){
+                this.addPlayer(user)
+            }.bind(this))
+        }
     },
 
     computed: {
@@ -60,6 +71,8 @@ new Vue({
     watch: {
         players: function(){
             this.fetchPlayerRatings()
+
+            window.location.hash = this.players.join(',')
         },
         gameType: function(){
             this.fetchPlayerRatings()
