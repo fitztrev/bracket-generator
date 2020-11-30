@@ -20,6 +20,16 @@
                 font-family: 'Oswald', sans-serif;
             }
 
+            #challengeInstructions {
+                position: absolute;
+                right: 100px;
+                top: 20px;
+                line-height: 68px;
+                font-size: 72px;
+                z-index: 100;
+                text-align: center;
+            }
+
             /*
              * Can't easily resize the jQuery plugin components.
              * So this is an easy way to get around it...
@@ -97,6 +107,7 @@
         <title>Bracket</title>
     </head>
     <body>
+        <div id="challengeInstructions" contenteditable></div>
         <div id="bracket"></div>
         <script
   src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -106,6 +117,8 @@
             const urlParams = new URLSearchParams(queryString)
 
             let pairings = JSON.parse(urlParams.get('pairings'))
+
+            $('#challengeInstructions').html(urlParams.get('challengeInstructions'))
 
             var data = {
                 teams: pairings,

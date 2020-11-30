@@ -64,7 +64,7 @@ new Vue({
             return pairings
         },
         linkToBracket: function() {
-            return 'bracket.html?pairings=' + encodeURIComponent(JSON.stringify(this.pairings))
+            return 'bracket.html?challengeInstructions=' + encodeURIComponent(this.challengeInstructions) + '&pairings=' + encodeURIComponent(JSON.stringify(this.pairings))
         },
     },
 

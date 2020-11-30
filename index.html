@@ -10,6 +10,9 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <style>
+            [v-cloak] {
+                display: none;
+            }
             body {
                 background: #421884 url(https://i.imgur.com/9m7hilt.jpg) no-repeat center center fixed;
                 color: #fff;
@@ -47,7 +50,7 @@
         <title>Viewer Bracket Generator</title>
     </head>
     <body>
-        <div id="app">
+        <div id="app" v-cloak>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col col-3 offset-1">
@@ -61,11 +64,13 @@
                             <!-- <small class="form-text text-white">It will pull their rating via the Lichess API</small> -->
                         </div>
 
-                        <hr>
+                        <div class="form-group">
+                            <input class="form-control form-control-sm" v-model="challengeInstructions">
+                        </div>
 
                         <form @submit.prevent="submit">
                             <div class="form-group">
-                                <input class="form-control form-control-lg"
+                                <input class="form-control form-control-sm"
                                     v-model="username"
                                     placeholder="Add player"
                                 >
@@ -73,12 +78,8 @@
                             </div>
                         </form>
 
-                        <!-- <h5>3) Challenge instructions</h5>
-                        <div class="form-group">
-                            <input class="form-control" v-model="challengeInstructions">
-                        </div> -->
-                        <h1 class="text-center display-4" contenteditable>
-                            7+2 Casual
+                        <h1 class="text-center display-3">
+                            {{ challengeInstructions }}
                         </h1>
 
                         <!-- <button type="button" class="btn btn-lg btn-primary" @click="submit">Setup</button> -->
@@ -147,6 +148,6 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
         <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-        <script src="app.js?3"></script>
+        <script src="app.js?4"></script>
     </body>
 </html>
