@@ -20,20 +20,6 @@
                 font-family: 'Oswald', sans-serif;
             }
 
-            .info-bar {
-                background-color: #565758;
-                font-size: 18px;
-                text-align: center;
-                height: 30px;
-            }
-
-            .info-bar input {
-                background-color: #565758;
-                color: #fff;
-                text-align: center;
-                width: 400px;
-            }
-
             /*
              * Can't easily resize the jQuery plugin components.
              * So this is an easy way to get around it...
@@ -111,10 +97,6 @@
         <title>Bracket</title>
     </head>
     <body>
-        <div class="info-bar">
-            TV Link: <input type="text" onclick="this.select()">
-        </div>
-
         <div id="bracket"></div>
         <script
   src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -158,7 +140,7 @@
                 $(document).on('click', '#bracket .team .label', function(){
                     let team = $(this).find('input').first().val()
                     let username = team.split(' ').splice(-1)
-                    $('.info-bar input').val(`https://lichess.org/@/${username}/tv`)
+                    // $('.info-bar input').val(`https://lichess.org/@/${username}/tv`)
                 })
             })
         </script>
