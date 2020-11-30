@@ -52,16 +52,6 @@
                 <div class="row">
                     <div class="col col-3 offset-1">
                         <div class="form-group">
-                            <textarea
-                                class="form-control"
-                                v-model="usernames"
-                                rows="8"
-                                spellcheck="false"
-                            ></textarea>
-                            <p class="form-text text-white">One Lichess username per line</p>
-                        </div>
-
-                        <div class="form-group">
                             <select class="form-control form-control-lg" v-model="gameType">
                                 <option value="bullet">Bullet</option>
                                 <option value="blitz">Blitz</option>
@@ -71,12 +61,24 @@
                             <!-- <small class="form-text text-white">It will pull their rating via the Lichess API</small> -->
                         </div>
 
+                        <hr>
+
+                        <form @submit.prevent="submit">
+                            <div class="form-group">
+                                <input class="form-control form-control-lg"
+                                    v-model="username"
+                                    placeholder="Add player"
+                                >
+                                <small class="form-text text-white"><a class="text-white" href="https://lichess-bracket-signup.herokuapp.com/" target="_blank">https://lichess-bracket-signup.herokuapp.com/</a></small>
+                            </div>
+                        </form>
+
 <!--                         <h5>3) Challenge instructions</h5>
                         <div class="form-group">
                             <input class="form-control" v-model="challengeInstructions">
                         </div> -->
 
-                        <button type="button" class="btn btn-lg btn-primary" @click="submit">Setup</button>
+                        <!-- <button type="button" class="btn btn-lg btn-primary" @click="submit">Setup</button> -->
                     </div>
                     <div class="col col-7" v-if="playerRatings.length">
                         <table class="table table-dark">
@@ -92,11 +94,12 @@
                                 <td class="px-5">#{{ key + 1}}</td>
                                 <td>{{ player.name }}</td>
                                 <td class="px-5 text-right">{{ player.rating }}</td>
+                                <td><a @click.prevent="removePlayer(player.name)" class="btn btn-outline-danger">&times;</a></td>
                                 <!-- <td class="text-right">{{ player.games }}</td> -->
                             </tr>
                         </table>
 
-                        <div class="alert alert-warning mt-3 text-center" v-if="playerRatings.length !== 8">
+                        <div class="alert alert-warning mt-3 text-center" v-if="! pairings">
                             <p>Pairings will be generated when there are 8 players.</p>
                         </div>
                     </div>
@@ -140,6 +143,7 @@
         <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+        <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
         <script src="app.js?2"></script>
     </body>
 </html>
