@@ -112,7 +112,7 @@
     </head>
     <body>
         <div class="info-bar">
-            <input type="text" onclick="this.select()">
+            TV Link: <input type="text" onclick="this.select()">
         </div>
 
         <div id="bracket"></div>
@@ -123,10 +123,10 @@
             const queryString = window.location.search
             const urlParams = new URLSearchParams(queryString)
 
-            let pairings = urlParams.get('pairings')
+            let pairings = JSON.parse(urlParams.get('pairings'))
 
             var data = {
-                teams: JSON.parse(pairings),
+                teams: pairings,
             }
 
             // var data = {
