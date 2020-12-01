@@ -68,21 +68,16 @@
                             <input class="form-control form-control-sm" v-model="challengeInstructions">
                         </div>
 
-                        <form @submit.prevent="submit">
-                            <div class="form-group">
-                                <input class="form-control form-control-sm"
-                                    v-model="username"
-                                    placeholder="Add player"
-                                >
-                                <small class="form-text text-white"><a class="text-white" href="https://lichess-bracket-signup.herokuapp.com/" target="_blank">https://lichess-bracket-signup.herokuapp.com/</a></small>
-                            </div>
-                        </form>
+                        <div class="form-group">
+                            <textarea v-model="usernames" class="form-control" rows="8"></textarea>
+                        </div>
+
+                        <button type="button" class="btn btn-lg btn-primary" @click="submit">Add Players</button>
 
                         <h1 class="text-center display-3">
                             {{ challengeInstructions }}
                         </h1>
 
-                        <!-- <button type="button" class="btn btn-lg btn-primary" @click="submit">Setup</button> -->
                     </div>
                     <div class="col col-7" v-if="playerRatings.length">
                         <table class="table table-dark">
@@ -91,7 +86,6 @@
                                     <th class="px-5">Seed</th>
                                     <th>Username</th>
                                     <th class="px-5 text-right">Rating</th>
-                                    <th class="text-right"><a @click.prevent="removeAllPlayers" class="btn btn-outline-danger btn-sm">&times;</a></th>
                                     <!-- <th class="text-right"># Games</th> -->
                                 </tr>
                             </thead>
@@ -99,7 +93,6 @@
                                 <td class="px-5">#{{ key + 1}}</td>
                                 <td>{{ player.name }}</td>
                                 <td class="px-5 text-right">{{ player.rating }}</td>
-                                <td class="text-right"><a @click.prevent="removePlayer(player.name)" class="btn btn-outline-danger btn-sm">&times;</a></td>
                                 <!-- <td class="text-right">{{ player.games }}</td> -->
                             </tr>
                         </table>
@@ -148,7 +141,6 @@
         <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
-        <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-        <script src="app.js?4"></script>
+        <script src="app.js?5"></script>
     </body>
 </html>

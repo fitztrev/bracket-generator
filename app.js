@@ -1,16 +1,11 @@
-var pusher = new Pusher('a60d4dec4b5449a2541e', {
-    cluster: 'us2'
-})
-
 new Vue({
     el: '#app',
 
     data: {
-        username: '',
+        usernames: ``,
         gameType: 'rapid',
         challengeInstructions: '7+2 Casual',
 
-        players: [],
         playerRatings: [],
 
         pairing_config: [
@@ -21,25 +16,10 @@ new Vue({
         ],
     },
 
-    mounted: function(){
-        var channel = pusher.subscribe('registrations')
-        channel.bind('signup', function(data) {
-            this.addPlayer(data.username)
-        }.bind(this))
-
-        /*
-         * Check URL for usernames
-         * #user1,user2,user3
-         */
-        let users = window.location.hash.substr(1)
-        if (users) {
-            _.each(users.split(','), function(user){
-                this.addPlayer(user)
-            }.bind(this))
-        }
-    },
-
     computed: {
+        players: function(){
+            return this.usernames.split("\n").filter(Boolean)
+        },
         playerRatingsSorted: function(){
             return _.orderBy(this.playerRatings, ['rating', 'games'], 'desc')
         },
@@ -68,39 +48,13 @@ new Vue({
         },
     },
 
-    watch: {
-        players: function(){
-            this.fetchPlayerRatings()
-
-            window.location.hash = this.players.join(',')
-        },
-        gameType: function(){
-            this.fetchPlayerRatings()
-        },
-    },
-
     methods: {
         submit: function() {
-            this.addPlayer(this.username)
-            this.username = ''
-        },
-
-        addPlayer: function(username) {
-            this.players.push(username)
-        },
-
-        removePlayer: function(username) {
-            this.players = _.reject(this.players, function(player) {
-                return player.toUpperCase() === username.toUpperCase()
-            })
-        },
-
-        removeAllPlayers: function() {
-            this.players = []
+            this.playerRatings = []
+            this.fetchPlayerRatings()
         },
 
         fetchPlayerRatings: function() {
-            this.playerRatings = []
             axios.post('https://lichess.org/api/users', this.players.join(','))
                 .then(function(response){
                     response.data.forEach(function(player){
