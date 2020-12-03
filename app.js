@@ -5,6 +5,7 @@ new Vue({
         usernames: ``,
         gameType: 'rapid',
         challengeInstructions: '7+2 Casual',
+        format: 'bracket',
 
         playerRatings: [],
 
@@ -21,7 +22,8 @@ new Vue({
             return this.usernames.split("\n").filter(Boolean)
         },
         playerRatingsSorted: function(){
-            return _.orderBy(this.playerRatings, ['rating', 'games'], 'desc')
+            let direction = this.format === 'ladder' ? 'asc' : 'desc'
+            return _.orderBy(this.playerRatings, ['rating', 'games'], direction)
         },
         pairings: function(){
             /*
@@ -46,6 +48,15 @@ new Vue({
         linkToBracket: function() {
             return 'bracket.html?challengeInstructions=' + encodeURIComponent(this.challengeInstructions) + '&pairings=' + encodeURIComponent(JSON.stringify(this.pairings))
         },
+        ladderIsDefeated: function() {
+            return this.playerRatings.length && this.playerRatings.length === _.filter(this.playerRatings, p => p.ladderResult === 'win').length
+        },
+    },
+
+    watch: {
+        ladderIsDefeated: function(value){
+            if (value) this.fireConfetti()
+        },
     },
 
     methods: {
@@ -62,9 +73,34 @@ new Vue({
                             name: player.username,
                             rating: player.perfs[this.gameType].rating,
                             games: player.perfs[this.gameType].games,
+                            ladderResult: '',
                         })
                     }.bind(this))
                 }.bind(this))
+        },
+
+        fireConfetti: function() {
+            // https://www.kirilv.com/canvas-confetti/
+            var duration = 20 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            var particleCount = 50 * (timeLeft / duration);
+                // since particles fall down, start a bit higher than random
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
         },
     },
 })

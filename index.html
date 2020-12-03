@@ -17,7 +17,7 @@
                 background: #421884 url(https://i.imgur.com/9m7hilt.jpg) no-repeat center center fixed;
                 color: #fff;
                 font-family: 'Oswald', sans-serif;
-                margin: 50px 0;
+                margin: 50px 0 600px;
             }
             h1, hr {
                 margin: 40px 0;
@@ -46,6 +46,17 @@
             #app .challenge-instructions {
                 font-size: 1rem;
             }
+            #app .ladder-result-inputs {
+                opacity: 0.2;
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+            #app .result-icon {
+                position: absolute;
+                top: 35px;
+                right: 40px;
+            }
         </style>
         <title>Viewer Bracket Generator</title>
     </head>
@@ -54,6 +65,13 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col col-3 offset-1">
+                        <div class="form-group">
+                            <select class="form-control form-control-lg" v-model="format">
+                                <option value="bracket">Bracket</option>
+                                <option value="ladder">Ladder</option>
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <select class="form-control form-control-lg" v-model="gameType">
                                 <option value="bullet">Bullet</option>
@@ -83,7 +101,7 @@
                         <table class="table table-dark">
                             <thead>
                                 <tr>
-                                    <th class="px-5">Seed</th>
+                                    <th class="px-5">{{ format === 'ladder' ? 'Level' : 'Seed' }}</th>
                                     <th>Username</th>
                                     <th class="px-5 text-right">Rating</th>
                                     <!-- <th class="text-right"># Games</th> -->
@@ -97,7 +115,7 @@
                             </tr>
                         </table>
 
-                        <div class="alert alert-warning mt-3 text-center" v-if="! pairings">
+                        <div class="alert alert-warning mt-3 text-center" v-if="format === 'bracket' && ! pairings">
                             Pairings will be generated when there are 8 players.
                         </div>
                     </div>
@@ -105,7 +123,48 @@
 
                 <hr>
 
-                <div class="row" v-if="pairings">
+                <div class="row" v-if="format === 'ladder' && playerRatingsSorted.length">
+                    <div class="col col-10 offset-1 text-center">
+                        <h1 class="text-center mb-5">Ladder</h1>
+
+                        <template v-for="(player, key) in playerRatingsSorted">
+                            <div class="row">
+                                <div class="col col-6 offset-3">
+                                    <div class="card text-white mb-3"
+                                        :class="{
+                                            'bg-dark': ! player.ladderResult,
+                                            'bg-success': player.ladderResult === 'win',
+                                            'bg-danger': player.ladderResult === 'loss',
+                                        }"
+                                    >
+                                        <div class="card-body">
+                                            <div class="card-text">
+                                                <h6>Level {{ key + 1 }}</h6>
+                                                <h5>
+                                                    {{ player.name }}
+                                                    ({{ player.rating }})
+                                                </h5>
+                                                <div class="ladder-result-inputs">
+                                                    <input type="radio" v-model="player.ladderResult" class="level-defeated" value="">
+                                                    <input type="radio" v-model="player.ladderResult" class="level-defeated" value="loss">
+                                                    <input type="radio" v-model="player.ladderResult" class="level-defeated" value="win">
+                                                </div>
+                                                <i class="result-icon fas fa-check-circle fa-3x" v-if="player.ladderResult === 'win'"></i>
+                                                <i class="result-icon fas fa-times-circle fa-3x" v-if="player.ladderResult === 'loss'"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div v-if="ladderIsDefeated">
+                            <h1>Victory!</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" v-if="format === 'bracket' && pairings">
                     <div class="col col-10 offset-1 text-center">
                         <h1 class="text-center mb-5">First Round Pairings</h1>
 
@@ -141,6 +200,8 @@
         <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
-        <script src="app.js?5"></script>
+        <script src="https://kit.fontawesome.com/bff8cb0307.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js"></script>
+        <script src="app.js?6"></script>
     </body>
 </html>
