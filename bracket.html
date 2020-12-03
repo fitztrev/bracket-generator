@@ -27,6 +27,9 @@
                 line-height: 68px;
                 font-size: 72px;
                 z-index: 100;
+                text-align: right;
+            }
+            #challengeInstructions div {
                 text-align: center;
             }
 
@@ -103,22 +106,37 @@
             div.jQBracket .win .bubble:after {
                 border-right-color: #ffff00;
             }
+            #trigger-confetti {
+                color: #fff;
+                font-size: 12px;
+                opacity: 0.4;
+                text-decoration: none;
+
+/*                position: absolute;
+                bottom: 0;
+                right: 0;*/
+            }
         </style>
         <title>Bracket</title>
     </head>
     <body>
-        <div id="challengeInstructions" contenteditable></div>
+        <div id="challengeInstructions">
+            <a href="#" id="trigger-confetti">Confetti</a>
+            <div contenteditable></div>
+        </div>
+
         <div id="bracket"></div>
         <script
   src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-bracket@0.11.1/dist/jquery.bracket.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js"></script>
         <script>
             const queryString = window.location.search
             const urlParams = new URLSearchParams(queryString)
 
             let pairings = JSON.parse(urlParams.get('pairings'))
 
-            $('#challengeInstructions').html(urlParams.get('challengeInstructions'))
+            $('#challengeInstructions div').html(urlParams.get('challengeInstructions'))
 
             var data = {
                 teams: pairings,
@@ -154,6 +172,30 @@
                     let team = $(this).find('input').first().val()
                     let username = team.split(' ').splice(-1)
                     // $('.info-bar input').val(`https://lichess.org/@/${username}/tv`)
+                })
+
+                $('#trigger-confetti').click(function(){
+                    // https://www.kirilv.com/canvas-confetti/
+                    var duration = 20 * 1000;
+                    var animationEnd = Date.now() + duration;
+                    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+                    function randomInRange(min, max) {
+                        return Math.random() * (max - min) + min;
+                    }
+
+                    var interval = setInterval(function() {
+                    var timeLeft = animationEnd - Date.now();
+
+                    if (timeLeft <= 0) {
+                        return clearInterval(interval);
+                    }
+
+                    var particleCount = 200 * (timeLeft / duration);
+                        // since particles fall down, start a bit higher than random
+                        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+                    }, 250);
                 })
             })
         </script>

@@ -155,7 +155,7 @@
                                                     <input type="radio" v-model="player.ladderResult" class="level-defeated" value="">
                                                     <input type="radio" v-model="player.ladderResult" class="level-defeated" value="in-progress">
                                                     <input type="radio" v-model="player.ladderResult" class="level-defeated" value="loss">
-                                                    <input type="radio" v-model="player.ladderResult" class="level-defeated" value="win">
+                                                    <input type="radio" v-model="player.ladderResult" class="level-defeated" value="win" @click="fireSingleConfetti()">
                                                 </div>
                                                 <i class="result-icon fas fa-check-circle fa-3x" v-if="player.ladderResult === 'win'"></i>
                                                 <i class="result-icon fas fa-times-circle fa-3x" v-if="player.ladderResult === 'loss'"></i>
@@ -211,6 +211,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
         <script src="https://kit.fontawesome.com/bff8cb0307.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js"></script>
-        <script src="app.js?7"></script>
+        <script src="app.js?8"></script>
     </body>
 </html>

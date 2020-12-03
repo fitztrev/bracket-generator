@@ -79,6 +79,14 @@ new Vue({
                 }.bind(this))
         },
 
+        fireSingleConfetti:  function(){
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+            });
+        },
+
         fireConfetti: function() {
             // https://www.kirilv.com/canvas-confetti/
             var duration = 20 * 1000;
@@ -96,7 +104,7 @@ new Vue({
                 return clearInterval(interval);
             }
 
-            var particleCount = 50 * (timeLeft / duration);
+            var particleCount = 200 * (timeLeft / duration);
                 // since particles fall down, start a bit higher than random
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
