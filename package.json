@@ -1,0 +1,11 @@
+{
+  "name": "bracket-generator",
+  "dependencies": {},
+  "devDependencies": {
+    "snowpack": "^2.18.5"
+  },
+  "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build"
+  }
+}

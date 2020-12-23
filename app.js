@@ -9,12 +9,26 @@ new Vue({
 
         playerRatings: [],
 
-        pairing_config: [
-            [5, 1], // #5 seed plays #1 seed, etc...
-            [8, 4],
-            [6, 2],
-            [7, 3],
-        ],
+        pairing_config: {
+            8: [ // when 8 players...
+                [5, 1], // #5 seed plays #1 seed, etc...
+                [8, 4],
+                [6, 2],
+                [7, 3],
+            ],
+            7: [
+                [null, 1],
+                [7, 4],
+                [5, 2],
+                [6, 3],
+            ],
+            6: [
+                [null, 1],
+                [6, 4],
+                [null, 2],
+                [5, 3],
+            ],
+        },
     },
 
     computed: {
@@ -26,19 +40,21 @@ new Vue({
             return _.orderBy(this.playerRatings, ['rating', 'games'], direction)
         },
         pairings: function(){
-            /*
-             * This generates the JSON to feed to
-             * bracket.html to populate the bracket.
-             */
-            if (this.playerRatings.length !== 8) return
+            if (this.playerRatings.length < 6 || this.playerRatings.length > 8) {
+                return
+            }
 
             let pairings = []
 
-            for(var i=0; i<this.pairing_config.length; i++) {
+            let pairing_config = this.pairing_config[this.playerRatings.length]
+
+            console.log(pairing_config)
+
+            for(var i=0; i<pairing_config.length; i++) {
                 pairings.push(
                     [
-                        '#' + this.pairing_config[i][0] + ' - ' + this.playerRatingsSorted[this.pairing_config[i][0] - 1].name,
-                        '#' + this.pairing_config[i][1] + ' - ' + this.playerRatingsSorted[this.pairing_config[i][1] - 1].name,
+                        this.formatNameForBracket(pairing_config[i][0]),
+                        this.formatNameForBracket(pairing_config[i][1]),
                     ]
                 )
             }
@@ -60,6 +76,11 @@ new Vue({
     },
 
     methods: {
+        formatNameForBracket(seed) {
+            if (! seed) return
+
+            return '#' + seed + ' - ' + this.playerRatingsSorted[seed - 1].name
+        },
         submit: function() {
             this.playerRatings = []
             this.fetchPlayerRatings()

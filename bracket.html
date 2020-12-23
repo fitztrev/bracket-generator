@@ -15,7 +15,8 @@
             }
 
             body {
-                background: #421884 url(https://i.imgur.com/9m7hilt.jpg) no-repeat center center fixed;
+                /*background: #444 url(img/dark-bg.jpg) no-repeat center center fixed;*/
+                background: #444;
                 color: #fff;
                 font-family: 'Oswald', sans-serif;
             }
@@ -174,7 +175,10 @@
                     // $('.info-bar input').val(`https://lichess.org/@/${username}/tv`)
                 })
 
+                var interval
                 $('#trigger-confetti').click(function(){
+                    clearInterval(interval)
+
                     // https://www.kirilv.com/canvas-confetti/
                     var duration = 20 * 1000;
                     var animationEnd = Date.now() + duration;
@@ -184,14 +188,15 @@
                         return Math.random() * (max - min) + min;
                     }
 
-                    var interval = setInterval(function() {
-                    var timeLeft = animationEnd - Date.now();
+                    interval = setInterval(function() {
+                        var timeLeft = animationEnd - Date.now();
 
-                    if (timeLeft <= 0) {
-                        return clearInterval(interval);
-                    }
+                        if (timeLeft <= 0) {
+                            return clearInterval(interval);
+                        }
 
-                    var particleCount = 200 * (timeLeft / duration);
+                        var particleCount = 200 * (timeLeft / duration);
+
                         // since particles fall down, start a bit higher than random
                         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
                         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
